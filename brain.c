@@ -3,7 +3,7 @@
 
 // ===== DEFINES ===== //
 #define MEM_SIZE        (1024)
-#define MAX_OPERATIONS  (400)
+#define MAX_OPERATIONS  (10000)
 
 #define LINE_LENGTH     (80)
 #define DATA_PADDING    (8)
@@ -193,7 +193,7 @@ int bf_processor(char dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
     char op = instMem[activeIP];
     if (debug)
     {
-        printf("IP=%i, @IP=%02X, DP=%i, @DP=%02X\n",activeIP,op,activeDP,
+        printf("IP=%i, @IP=0x%02X, DP=%i, @DP=0x%02X\n",activeIP,op,activeDP,
             dataMem[activeDP]);
     }
 
@@ -231,7 +231,7 @@ int bf_processor(char dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
             }
             break;
         case '.':
-            printf("Output: %X\n",dataMem[activeDP]);
+            printf("Output: 0x%X\n",dataMem[activeDP]);
             break;
         default:
             printf("Halting.\n");
@@ -363,11 +363,14 @@ int main(int argc, char **argv)
     }
     while (running && operationCount < MAX_OPERATIONS)
     {
-        drawUI(dataMem, &dataPointer, instMem, &instPointer);
-
-        while ((activeChar = (char)(fgetc(stdin))))
+        if (argc > 1)
         {
-            if (activeChar == 0x0a) { break; }
+            drawUI(dataMem, &dataPointer, instMem, &instPointer);
+
+            while ((activeChar = (char)(fgetc(stdin))))
+            {
+                if (activeChar == 0x0a) { break; }
+            }
         }
 
         returnValue = bf_processor(dataMem, &dataPointer, instMem,
