@@ -8,15 +8,18 @@
 #define LINE_LENGTH     (80)
 #define DATA_PADDING    (8)
 
+// ===== TYPEDEFS ===== //
+typedef unsigned char uint8;
+
 // ===== FUNCTION PROTOTYPES ===== //
 int stackPush(int*, int*, int);
 int stackPop(int*, int*, int*);
-int bf_processor(char[MEM_SIZE], int*, char[MEM_SIZE], int*, int[MEM_SIZE],
+int bf_processor(uint8[MEM_SIZE], int*, char[MEM_SIZE], int*, int[MEM_SIZE],
         int*, int);
-void drawUI(char[MEM_SIZE], int*, char[MEM_SIZE], int*);
+void drawUI(uint8[MEM_SIZE], int*, char[MEM_SIZE], int*);
 
 // ===== HELPER FUNCTIONS ===== //
-void drawUI(char dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
+void drawUI(uint8 dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
         int *instPtr)
 {
     if (!dataMem || !dataPtr || !instMem || !instPtr)
@@ -164,7 +167,7 @@ int stackPop(int *index, int *stack, int *value)
  * 6 - output value (decimal)
  * 7 - read one byte of input -- TODO
  */
-int bf_processor(char dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
+int bf_processor(uint8 dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
         int *instPtr, int jumpTable[MEM_SIZE], int *running, int debug)
 {
     // Verify arguments
@@ -258,7 +261,7 @@ int main(int argc, char **argv)
     printf("<SETUP> Beginning...\n");
     // Init instruction memory and data memory
     char instMem[MEM_SIZE];
-    char dataMem[MEM_SIZE];
+    uint8 dataMem[MEM_SIZE];
     int instPointer = 0;
     int dataPointer = 0;
     for (int i = 0; i < MEM_SIZE; i++)
@@ -335,7 +338,7 @@ int main(int argc, char **argv)
             if (returnValue) { return 1; }
 
             jumpTable[i] = stackContents;
-            jumpTable[stackContents] = i; // Investigate -- TODO
+            jumpTable[stackContents] = i;
         }
     }
     if (stackIndex != 0)
