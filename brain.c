@@ -234,7 +234,14 @@ int bf_processor(uint8 dataMem[MEM_SIZE], int *dataPtr, char instMem[MEM_SIZE],
             }
             break;
         case '.':
-            printf("Output: 0x%X\n",dataMem[activeDP]);
+            if (debug)
+            {
+                printf("0x%02X\n",dataMem[activeDP]);
+            }
+            else
+            {
+                printf("%c",dataMem[activeDP]);
+            }
             break;
         default:
             printf("Halting.\n");
